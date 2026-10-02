@@ -1,0 +1,28 @@
+[package]
+name = "tmalloc"
+version = "0.1.0"
+edition = "2021"
+description = "A general-purpose memory allocator: size classes with per-thread caches for small blocks, a boundary-tag heap with coalescing for medium ones, direct mappings for large ones. Usable as a #[global_allocator]."
+license = "MIT"
+
+[lib]
+name = "tmalloc"
+
+[dependencies]
+
+[target.'cfg(windows)'.dependencies]
+windows-sys = { version = "0.61", features = ["Win32_System_Memory", "Win32_System_Threading", "Win32_Foundation"] }
+
+[target.'cfg(unix)'.dependencies]
+libc = "0.2"
+
+[dev-dependencies]
+mimalloc = "0.1"
+
+[target.'cfg(windows)'.dev-dependencies]
+windows-sys = { version = "0.61", features = ["Win32_System_ProcessStatus", "Win32_System_Threading", "Win32_Foundation"] }
+
+[profile.release]
+lto = true
+codegen-units = 1
+debug = false
